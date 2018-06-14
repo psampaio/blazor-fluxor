@@ -1,7 +1,6 @@
 ﻿using Blazor.Fluxor;
 using Microsoft.AspNetCore.Blazor.Browser.Rendering;
 using Microsoft.AspNetCore.Blazor.Browser.Services;
-using MiddlewareSample.Client.Store.Middlewares.AnExample;
 
 namespace MiddlewareSample.Client
 {
@@ -13,7 +12,7 @@ namespace MiddlewareSample.Client
 			{
 				services.AddFluxor(options =>
 					options
-						.AddMiddleware<AnExampleMiddleware>()
+						//.AddMiddleware<AnExampleMiddleware>()
 						.UseDependencyInjection(typeof(Program).Assembly)
 				);
 			});

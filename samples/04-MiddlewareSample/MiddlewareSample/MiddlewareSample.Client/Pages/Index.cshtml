@@ -6,9 +6,43 @@
 
 <h1>Middleware sample</h1>
 <h2>Look in your browser's console view!</h2>
-<p>Current count: @State.Current.ClickCount</p>
+<p>Current count from the button on the left: @State.Current.ClickCount</p>
+
+<button onclick="@ButtonClicked">Click me too</button>
+<p>Number of times you've clicked the button above: @localClickCount</p>
+
 
 <!--
     Note: The IncrementCounterAction in this sample is dispatched in
     the file /Shared/MainLayout.cshtml
 -->
+
+@functions { 
+    int localClickCount = 0;
+    protected override void OnAfterRender()
+    {
+        System.Diagnostics.Debug.WriteLine("OnAfterRender: The view should see the value " + State.Current.ClickCount);
+        base.OnAfterRender();
+    }
+
+    protected override Task OnAfterRenderAsync()
+    {
+        System.Diagnostics.Debug.WriteLine("OnAfterRenderAsync: The view should see the value " + State.Current.ClickCount);
+        return base.OnAfterRenderAsync();
+    }
+
+    protected override bool ShouldRender()
+    {
+        bool result = base.ShouldRender();
+        System.Diagnostics.Debug.WriteLine("ShouldRender=" + result);
+        return result;
+    }
+
+    void ButtonClicked()
+    {
+        System.Diagnostics.Debug.WriteLine("Local click count = " + localClickCount);
+        localClickCount++;
+
+    }
+
+}
