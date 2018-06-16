@@ -39,5 +39,24 @@ namespace Blazor.Fluxor.UnitTests
 			Assert.Equal(0, subject._BeginMiddlewareChangeCount);
 			Assert.False(subject._IsInsideMiddlewareChange);
 		}
+
+		[Fact]
+		public void OnInternalMiddlewareChangeEnding_ShouldOnlyBeCalled_WhenLastInternalChangeCallHasCompleted()
+		{
+			var subject = new MiddlewareWithExposedMembers();
+			Assert.Equal(0, subject.OnInternalMiddlewareChangeEndingCallCount);
+
+			subject._BeginInternalMiddlewareChange().Dispose();
+			Assert.Equal(1, subject.OnInternalMiddlewareChangeEndingCallCount);
+
+			using (subject._BeginInternalMiddlewareChange())
+			{
+				using (subject._BeginInternalMiddlewareChange())
+				{
+
+				}
+			}
+			Assert.Equal(2, subject.OnInternalMiddlewareChangeEndingCallCount);
+		}
 	}
 }
