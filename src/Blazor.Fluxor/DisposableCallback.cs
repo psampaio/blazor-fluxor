@@ -10,6 +10,7 @@ namespace Blazor.Fluxor
 	public class DisposableCallback : IDisposable
 	{
 		private readonly Action Action;
+		private bool IsDisposed;
 
 		/// <summary>
 		/// Creates an instance of the class
@@ -22,6 +23,10 @@ namespace Blazor.Fluxor
 
 		public void Dispose()
 		{
+			if (IsDisposed)
+				throw new ObjectDisposedException(nameof(DisposableCallback));
+
+			IsDisposed = true;
 			GC.SuppressFinalize(this);
 			Action();
 		}
