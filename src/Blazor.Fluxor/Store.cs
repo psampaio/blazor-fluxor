@@ -20,8 +20,8 @@ namespace Blazor.Fluxor
 
 		private int BeginMiddlewareChangeCount;
 		private bool HasActivatedStore;
-
 		private bool IsInsideMiddlewareChange => BeginMiddlewareChangeCount > 0;
+		private IDisposable EndMiddlewareChangeDisposable;
 
 		public Store()
 		{
@@ -119,12 +119,22 @@ namespace Blazor.Fluxor
 		public IDisposable BeginInternalMiddlewareChange()
 		{
 			BeginMiddlewareChangeCount++;
-			IEnumerable<IDisposable> disposables = Middlewares.Select(x => x.BeginInternalMiddlewareChange());
-			return new DisposableCallback(() =>
+			if (BeginMiddlewareChangeCount == 1)
 			{
-				BeginMiddlewareChangeCount--;
-				disposables.ToList().ForEach(x => x.Dispose());
-			});
+				IDisposable[] disposables = Middlewares
+					.Select(x => x.BeginInternalMiddlewareChange())
+					.ToArray();
+				EndMiddlewareChangeDisposable = new DisposableCallback(() =>
+				{
+					BeginMiddlewareChangeCount--;
+					if (BeginMiddlewareChangeCount == 0)
+					{
+						EndMiddlewareChangeDisposable = null;
+						disposables.ToList().ForEach(x => x.Dispose());
+					}
+				});
+			}
+			return EndMiddlewareChangeDisposable;
 		}
 
 		public RenderFragment Initialize()
