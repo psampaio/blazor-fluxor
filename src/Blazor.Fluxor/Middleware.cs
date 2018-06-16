@@ -5,7 +5,7 @@ namespace Blazor.Fluxor
 {
 	public abstract class Middleware : IMiddleware
 	{
-		private int BeginMiddlewareChangeCount;
+		protected int BeginMiddlewareChangeCount { get; private set; }
 
 		protected IStore Store { get; private set; }
 		protected bool IsInsideMiddlewareChange => BeginMiddlewareChangeCount > 0;
