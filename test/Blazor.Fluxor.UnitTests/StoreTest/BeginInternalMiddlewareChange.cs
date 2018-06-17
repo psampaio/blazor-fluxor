@@ -1,7 +1,7 @@
 ﻿using Moq;
 using Xunit;
 
-namespace Blazor.Fluxor.UnitTests.SupportFiles
+namespace Blazor.Fluxor.UnitTests.StoreTests
 {
 	public partial class StoreTests
 	{

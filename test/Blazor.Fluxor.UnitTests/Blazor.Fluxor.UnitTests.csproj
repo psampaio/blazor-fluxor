@@ -18,8 +18,4 @@
     <ProjectReference Include="..\..\src\Blazor.Fluxor\Blazor.Fluxor.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Store\" />
-  </ItemGroup>
-
 </Project>
