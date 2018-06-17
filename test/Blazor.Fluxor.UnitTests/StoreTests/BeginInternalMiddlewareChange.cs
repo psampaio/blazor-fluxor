@@ -28,7 +28,6 @@ namespace Blazor.Fluxor.UnitTests.StoreTests
 
 				disposable2.Dispose();
 				Assert.Equal(1, disposeCount);
-
 			}
 		}
 	}
