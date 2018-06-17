@@ -43,7 +43,7 @@ namespace Blazor.Fluxor.ReduxDevTools
 			SequenceNumberOfLatestState++;
 			SequenceNumberOfCurrentState = SequenceNumberOfLatestState;
 
-            return null;
+            return Enumerable.Empty<IAction>();
 		}
 
 		private IDictionary<string, object> GetState()

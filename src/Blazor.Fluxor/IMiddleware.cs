@@ -37,7 +37,7 @@ namespace Blazor.Fluxor
 		/// Called after each action dispatched
 		/// </summary>
 		/// <param name="action">The action that has just been dispatched</param>
-        /// <returns>A collection of actions to dispatch. Null is a valid return value.</returns>
+        /// <returns>A collection of actions to dispatch</returns>
 		IEnumerable<IAction> AfterDispatch(IAction action);
 		/// <summary>
 		/// This should only be called via <see cref="IStore.BeginInternalMiddlewareChange"/>.
