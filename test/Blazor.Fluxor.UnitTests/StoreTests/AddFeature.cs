@@ -56,6 +56,20 @@ namespace Blazor.Fluxor.UnitTests.StoreTests
 					.Verify(x => x.Initialize(subject));
 			}
 
+			[Fact]
+			public void CallsAfterInitializeAllMiddlewares_WhenPageHasAlreadyLoaded()
+			{
+				var browserInteropStub = new BrowserInteropStub();
+				var subject = new Store(browserInteropStub);
+				browserInteropStub._TriggerPageLoaded();
+
+				var mockMiddleware = new Mock<IMiddleware>();
+				subject.AddMiddleware(mockMiddleware.Object);
+
+				mockMiddleware
+					.Verify(x => x.AfterInitializeAllMiddlewares());
+			}
+
 		}
 	}
 }
