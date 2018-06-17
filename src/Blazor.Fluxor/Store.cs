@@ -11,7 +11,7 @@ namespace Blazor.Fluxor
 {
 	public class Store : IStore
 	{
-		public IEnumerable<IFeature> Features => FeaturesByName.Values;
+		public IReadOnlyDictionary<string, IFeature> Features => FeaturesByName;
 
 		private readonly Dictionary<string, IFeature> FeaturesByName = new Dictionary<string, IFeature>(StringComparer.InvariantCultureIgnoreCase);
 		private readonly Dictionary<Type, List<IEffect>> EffectsByActionType = new Dictionary<Type, List<IEffect>>();

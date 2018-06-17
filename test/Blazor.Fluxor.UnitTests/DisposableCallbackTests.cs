@@ -8,7 +8,7 @@ namespace Blazor.Fluxor.UnitTests
 		public class Dispose
 		{
 			[Fact]
-			public void ShouldCallActionPassedInConstructor()
+			public void CallsActionPassedInConstructor()
 			{
 				bool wasCalled = false;
 				Action action = () => wasCalled = true;
@@ -20,7 +20,7 @@ namespace Blazor.Fluxor.UnitTests
 			}
 
 			[Fact]
-			public void ShouldThrowObjectDisposedException_WhenDisposedTwice()
+			public void ThrowsObjectDisposedException_WhenDisposedTwice()
 			{
 				var subject = new DisposableCallback(() => { });
 				subject.Dispose();

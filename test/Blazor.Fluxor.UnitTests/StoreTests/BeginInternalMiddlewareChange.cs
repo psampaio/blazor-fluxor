@@ -8,7 +8,7 @@ namespace Blazor.Fluxor.UnitTests.StoreTests
 		public class BeginInternalMiddlewareChange
 		{
 			[Fact]
-			public void BeginInternalMiddlewareChange_ShouldExecuteOnAllRegisteredMiddlewares()
+			public void ExecutesOnAllRegisteredMiddlewares()
 			{
 				int disposeCount = 0;
 				var mockMiddleware = new Mock<IMiddleware>();

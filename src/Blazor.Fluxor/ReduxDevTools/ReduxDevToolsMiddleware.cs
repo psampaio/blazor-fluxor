@@ -49,7 +49,7 @@ namespace Blazor.Fluxor.ReduxDevTools
 		private IDictionary<string, object> GetState()
 		{
 			var state = (IDictionary<string, object>)new ExpandoObject();
-			foreach (IFeature feature in Store.Features.OrderBy(x => x.GetName()))
+			foreach (IFeature feature in Store.Features.Values.OrderBy(x => x.GetName()))
 				state[feature.GetName()] = feature.GetState();
 			return state;
 		}
@@ -65,13 +65,11 @@ namespace Blazor.Fluxor.ReduxDevTools
 			SequenceNumberOfCurrentState = e.payload.actionId;
 			using (Store.BeginInternalMiddlewareChange())
 			{
-				Dictionary<string, IFeature> featuresByName = Store.Features.ToDictionary(x => x.GetName());
-
 				var newFeatureStates = (IDictionary<string, object>)JsonUtil.Deserialize<object>(e.state);
 				foreach (KeyValuePair<string, object> newFeatureState in newFeatureStates)
 				{
 					// Get the feature with the given name
-					if (!featuresByName.TryGetValue(newFeatureState.Key, out IFeature feature))
+					if (!Store.Features.TryGetValue(newFeatureState.Key, out IFeature feature))
 						continue;
 
 					// Get the generic method of JsonUtil.Deserialize<> so we have the correct object type for the state

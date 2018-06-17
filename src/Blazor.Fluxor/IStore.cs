@@ -63,9 +63,9 @@ namespace Blazor.Fluxor
 		/// <seealso cref="Routing.RoutingMiddleware.OnLocationChanged(object, string)"/>
 		IDisposable BeginInternalMiddlewareChange();
 		/// <summary>
-		/// All of the features added to the store.
+		/// All of the features added to the store, keyed by their unique name.
 		/// </summary>
-		IEnumerable<IFeature> Features { get; }
+		IReadOnlyDictionary<string, IFeature> Features { get; }
 		/// <summary>
 		/// This should be executed within a cshtml page such as Shared/MainLayout to ensure all 
 		/// Middleware Javascripts are inserted into the web page
