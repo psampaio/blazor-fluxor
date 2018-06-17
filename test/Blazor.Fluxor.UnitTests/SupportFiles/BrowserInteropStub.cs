@@ -1,13 +1,21 @@
-﻿using Blazor.Fluxor.Services;
-using Moq;
+﻿using System;
+using Blazor.Fluxor.Services;
 
 namespace Blazor.Fluxor.UnitTests.SupportFiles
 {
-	public static class BrowserInteropStub
+	public class BrowserInteropStub : IBrowserInteropService
 	{
-		public static IBrowserInteropService Create()
+		public event EventHandler PageLoaded;
+		public string _ClientScripts;
+
+		public string GetClientScripts()
 		{
-			return new Mock<IBrowserInteropService>().Object;
+			return _ClientScripts;
+		}
+
+		public void _TriggerPageLoaded()
+		{
+			PageLoaded?.Invoke(this, EventArgs.Empty);
 		}
 	}
 }

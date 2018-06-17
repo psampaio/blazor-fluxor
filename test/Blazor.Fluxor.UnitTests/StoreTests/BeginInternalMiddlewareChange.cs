@@ -17,7 +17,7 @@ namespace Blazor.Fluxor.UnitTests.StoreTests
 					.Setup(x => x.BeginInternalMiddlewareChange())
 					.Returns(new DisposableCallback(() => disposeCount++));
 
-				var subject = new Store(BrowserInteropStub.Create());
+				var subject = new Store(new BrowserInteropStub());
 				subject.AddMiddleware(mockMiddleware.Object);
 
 				var disposable1 = subject.BeginInternalMiddlewareChange();

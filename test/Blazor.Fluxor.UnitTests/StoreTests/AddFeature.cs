@@ -1,8 +1,6 @@
 ﻿using Blazor.Fluxor.UnitTests.SupportFiles;
 using Moq;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace Blazor.Fluxor.UnitTests.StoreTests
@@ -20,7 +18,7 @@ namespace Blazor.Fluxor.UnitTests.StoreTests
 					.Setup(x => x.GetName())
 					.Returns(featureName);
 
-				var subject = new Store(BrowserInteropStub.Create());
+				var subject = new Store(new BrowserInteropStub());
 				subject.AddFeature(mockFeature.Object);
 
 				Assert.Same(mockFeature.Object, subject.Features[featureName]);
@@ -35,13 +33,27 @@ namespace Blazor.Fluxor.UnitTests.StoreTests
 					.Setup(x => x.GetName())
 					.Returns(featureName);
 
-				var subject = new Store(BrowserInteropStub.Create());
+				var subject = new Store(new BrowserInteropStub());
 				subject.AddFeature(mockFeature.Object);
 
 				Assert.Throws<ArgumentException>(() =>
 				{
 					subject.AddFeature(mockFeature.Object);
 				});
+			}
+
+			[Fact]
+			public void ActivatesMiddleware_WhenPageHasAlreadyLoaded()
+			{
+				var browserInteropStub = new BrowserInteropStub();
+				var subject = new Store(browserInteropStub);
+				browserInteropStub._TriggerPageLoaded();
+
+				var mockMiddleware = new Mock<IMiddleware>();
+				subject.AddMiddleware(mockMiddleware.Object);
+
+				mockMiddleware
+					.Verify(x => x.Initialize(subject));
 			}
 
 		}
