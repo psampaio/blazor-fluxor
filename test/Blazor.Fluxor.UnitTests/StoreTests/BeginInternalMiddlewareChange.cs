@@ -22,10 +22,13 @@ namespace Blazor.Fluxor.UnitTests.StoreTests
 
 				var disposable1 = subject.BeginInternalMiddlewareChange();
 				var disposable2 = subject.BeginInternalMiddlewareChange();
-				disposable1.Dispose();
-				disposable2.Dispose();
 
+				disposable1.Dispose();
+				Assert.Equal(0, disposeCount);
+
+				disposable2.Dispose();
 				Assert.Equal(1, disposeCount);
+
 			}
 		}
 	}
