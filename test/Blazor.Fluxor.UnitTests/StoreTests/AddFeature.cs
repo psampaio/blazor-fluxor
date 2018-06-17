@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using Blazor.Fluxor.UnitTests.SupportFiles;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,7 +20,7 @@ namespace Blazor.Fluxor.UnitTests.StoreTests
 					.Setup(x => x.GetName())
 					.Returns(featureName);
 
-				var subject = new Store();
+				var subject = new Store(BrowserInteropStub.Create());
 				subject.AddFeature(mockFeature.Object);
 
 				Assert.Same(mockFeature.Object, subject.Features[featureName]);
@@ -34,7 +35,7 @@ namespace Blazor.Fluxor.UnitTests.StoreTests
 					.Setup(x => x.GetName())
 					.Returns(featureName);
 
-				var subject = new Store();
+				var subject = new Store(BrowserInteropStub.Create());
 				subject.AddFeature(mockFeature.Object);
 
 				Assert.Throws<ArgumentException>(() =>

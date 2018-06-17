@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Blazor.Fluxor.Services;
 using Blazor.Fluxor.Temporary;
 using Microsoft.AspNetCore.Blazor;
 using Microsoft.AspNetCore.Blazor.RenderTree;
@@ -13,6 +14,7 @@ namespace Blazor.Fluxor
 	{
 		public IReadOnlyDictionary<string, IFeature> Features => FeaturesByName;
 
+		private IBrowserInteropService BrowserInteropService;
 		private readonly Dictionary<string, IFeature> FeaturesByName = new Dictionary<string, IFeature>(StringComparer.InvariantCultureIgnoreCase);
 		private readonly Dictionary<Type, List<IEffect>> EffectsByActionType = new Dictionary<Type, List<IEffect>>();
 		private readonly List<IMiddleware> Middlewares = new List<IMiddleware>();
@@ -22,9 +24,10 @@ namespace Blazor.Fluxor
 		private bool HasActivatedStore;
 		private bool IsInsideMiddlewareChange => BeginMiddlewareChangeCount > 0;
 
-		public Store()
+		public Store(IBrowserInteropService browserInteropService)
 		{
-			BrowserInterop.PageLoaded += OnPageLoaded;
+			BrowserInteropService = browserInteropService;
+			BrowserInteropService.PageLoaded += OnPageLoaded;
 		}
 
 		public void AddFeature(IFeature feature)
@@ -230,12 +233,12 @@ namespace Blazor.Fluxor
 
 		private string GetClientScripts()
 		{
-			return BrowserInterop.GetClientScripts();
+			return BrowserInteropService.GetClientScripts();
 		}
 
 		private void OnPageLoaded(object sender, EventArgs e)
 		{
-			BrowserInterop.PageLoaded -= OnPageLoaded;
+			BrowserInteropService.PageLoaded -= OnPageLoaded;
 			ActivateStore();
 		}
 	}

@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using Blazor.Fluxor.UnitTests.SupportFiles;
+using Moq;
 using Xunit;
 
 namespace Blazor.Fluxor.UnitTests.StoreTests
@@ -16,7 +17,7 @@ namespace Blazor.Fluxor.UnitTests.StoreTests
 					.Setup(x => x.BeginInternalMiddlewareChange())
 					.Returns(new DisposableCallback(() => disposeCount++));
 
-				var subject = new Store();
+				var subject = new Store(BrowserInteropStub.Create());
 				subject.AddMiddleware(mockMiddleware.Object);
 
 				var disposable1 = subject.BeginInternalMiddlewareChange();

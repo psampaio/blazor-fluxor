@@ -1,5 +1,6 @@
 ﻿using Blazor.Fluxor.DependencyInjection;
 using Blazor.Fluxor.Extensions;
+using Blazor.Fluxor.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,9 @@ namespace Blazor.Fluxor
 		{
 			if (configure == null)
 				throw new ArgumentNullException(nameof(configure));
+
+			// Add the browser interop service
+			serviceCollection.AddSingleton<IBrowserInteropService, BrowserInteropPassthrough>();
 
 			// We only use an instance so middleware can create extensions to the Options
 			var options = new Options();
