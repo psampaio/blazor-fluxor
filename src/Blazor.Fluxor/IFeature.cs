@@ -36,10 +36,8 @@ namespace Blazor.Fluxor
 		/// Allows a feature to react to an action dispatched via the store. This should not be called by
 		/// consuming applications. Instead you should dispatch actions only via <see cref="IStore.DispatchAsync(IAction)"/>
 		/// </summary>
-		/// <typeparam name="TAction">The type of the action dispatched via the store</typeparam>
 		/// <param name="action">The action dispatched via the store</param>
-		void ReceiveDispatchNotificationFromStore<TAction>(TAction action)
-			where TAction : IAction;
+		void ReceiveDispatchNotificationFromStore(IAction action);
 	}
 
 	/// <summary>

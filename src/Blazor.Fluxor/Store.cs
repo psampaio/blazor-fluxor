@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using Blazor.Fluxor.Temporary;
 using Microsoft.AspNetCore.Blazor;
@@ -68,7 +67,7 @@ namespace Blazor.Fluxor
 				// Notify all features of this action
 				foreach (var featureInstance in FeaturesByName.Values)
 				{
-					NotifyFeatureOfDispatch(featureInstance, currentActionToDispatch);
+				    featureInstance.ReceiveDispatchNotificationFromStore(currentActionToDispatch);
 				};
 				FluxorComponent.AllStateHasChanged();
 
@@ -204,19 +203,7 @@ namespace Blazor.Fluxor
             return actionsToDispatch;
 		}
 
-		private void NotifyFeatureOfDispatch(IFeature feature, IAction action)
-		{
-			string methodName = nameof(IFeature.ReceiveDispatchNotificationFromStore);
-			// We need the generic method for the feature instance
-			MethodInfo methodInfo = feature
-				.GetType()
-				.GetMethod(methodName)
-				.MakeGenericMethod(action.GetType());
-
-			methodInfo.Invoke(feature, new object[] { action });
-		}
-
-		private void ActivateStore()
+	    private void ActivateStore()
 		{
 			if (HasActivatedStore)
 				return;
